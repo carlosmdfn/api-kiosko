@@ -16,4 +16,6 @@ router.get(
     ventaCtrl.listar
 );
 
+router.get("/:ventaId", [authJwt.verifyToken, authJwt.isAdmin], ventaCtrl.getVentaById);
+
 module.exports = router;

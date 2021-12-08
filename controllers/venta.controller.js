@@ -4,6 +4,7 @@ const Producto = require("./../models/Producto");
 let guardar = async (req, res) => {
 
     let body = req.body;
+    console.log(body.productos_detalle)
 
     validar_cantidad(body.productos_detalle, (respuesta) => {
 
@@ -15,6 +16,7 @@ let guardar = async (req, res) => {
 
 
         let venta = new Venta({
+            fecha: body.fecha,
             valor_total: body.total,
             productos: respuesta
         });
@@ -40,8 +42,10 @@ let guardar = async (req, res) => {
 let validar_cantidad = async (productos, callback) => {
 
     let productos_id = [];
+
     productos.forEach(element => {
         productos_id.push(element.producto_id);
+    
     });
 
     let respuesta = [];
@@ -60,11 +64,13 @@ let validar_cantidad = async (productos, callback) => {
 
                     let modifico = await Producto.findByIdAndUpdate(data[i]._id, {
                         cantidad: cantidad_nueva
+                    }, error =>{
+                        console.log(error)
                     });
 
                     if (modifico != false) {
                         respuesta.push({
-                            productos: data[i]._id,
+                            producto: data[i]._id,
                             cantidad: cantidad
                         });
                     }
@@ -76,15 +82,20 @@ let validar_cantidad = async (productos, callback) => {
         })
 }
 
-let listar = (req, res) => {
-    Venta.find({})
-        .populate("productos.productos")
-        .exec((err, data) => {
-            res.json(data);
-        });
+const listar = async (req, res) => {
+    const venta = await Venta.find().populate("productos.producto");
+    return res.json(venta);
 }
+
+const getVentaById = async (req, res) => {
+    const { ventaId } = req.params;
+    
+    const venta = await Venta.findById(ventaId).populate("productos.producto");
+    res.status(200).json(venta);
+  };
 
 module.exports = {
     guardar,
-    listar
+    listar,
+    getVentaById
 }

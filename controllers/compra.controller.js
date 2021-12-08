@@ -54,7 +54,7 @@ let validar_cantidad = async (productos, callback) => {
 
                 let cantidad = productos.find(p => p.producto_id == data[i]._id).cantidad;
 
-                    cantidad_nueva = data[i].cantidad + cantidad;
+                    cantidad_nueva = Number(data[i].cantidad) + Number(cantidad);
 
                     let modifico = await Producto.findByIdAndUpdate(data[i]._id, {
                         cantidad: cantidad_nueva
@@ -62,7 +62,7 @@ let validar_cantidad = async (productos, callback) => {
 
                     if (modifico != false) {
                         respuesta.push({
-                            productos: data[i]._id,
+                            producto: data[i]._id,
                             cantidad: cantidad
                         });
                     }
@@ -73,15 +73,20 @@ let validar_cantidad = async (productos, callback) => {
         })
 }
 
-let listar = (req, res) => {
-    Compra.find({})
-        .populate("productos.productos")
-        .exec((err, data) => {
-            res.json(data);
-        });
+const listar = async (req, res) => {
+    const compra = await Compra.find().populate("productos.producto");
+    return res.json(compra);
 }
+
+const getCompraaById = async (req, res) => {
+    const { compraId } = req.params;
+    
+    const compra = await Compra.findById(compraId).populate("productos.producto");
+    res.status(200).json(compra);
+  };
 
 module.exports = {
     guardar,
-    listar
+    listar,
+    getCompraaById
 }

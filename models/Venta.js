@@ -9,7 +9,7 @@ const ventaSchema = new Schema (
     valor_total: Number,
     productos: [{
         producto : {
-            type: Schema.Types.ObjectId,
+            type: Schema.ObjectId,
             ref: "Producto"
         },
         cantidad : Number
