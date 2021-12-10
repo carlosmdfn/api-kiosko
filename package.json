@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "dev": "nodemon .",
-    "start": "npm index.js"
+    "start": "node index.js"
   },
   "author": "Carlos Pumayalla",
   "license": "ISC",
