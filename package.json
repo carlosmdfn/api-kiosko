@@ -4,7 +4,8 @@
   "description": "Kioko Api",
   "main": "index.js",
   "scripts": {
-    "dev": "nodemon ."
+    "dev": "nodemon .",
+    "start": "nodemon ."
   },
   "author": "Carlos Pumayalla",
   "license": "ISC",
