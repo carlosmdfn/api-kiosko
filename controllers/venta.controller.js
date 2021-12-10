@@ -64,8 +64,6 @@ let validar_cantidad = async (productos, callback) => {
 
                     let modifico = await Producto.findByIdAndUpdate(data[i]._id, {
                         cantidad: cantidad_nueva
-                    }, error =>{
-                        console.log(error)
                     });
 
                     if (modifico != false) {
