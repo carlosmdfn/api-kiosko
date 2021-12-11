@@ -2,6 +2,7 @@ const express = require('express');
 const conectarDB = require('./config/db');
 const cors = require("cors");
 const initialSetup = require('./libs/initialSetup')
+const PORT = process.env.PORT || 5000;
 
 
 // Creamos el servidor
@@ -30,6 +31,6 @@ app.use('/api/venta', require('./routes/ventaRouter'));
 app.use('/api/compra', require('./routes/compraRouter'))
 app.use('/api/categoria', require('./routes/categoriaRouter'))
 
-app.listen(4000, () => {
-    console.log('El servidor esta corriendo perfectamente')
+app.listen(PORT, () => {
+    console.log('El servidor esta corriendo perfectamente en ' + PORT)
 })
